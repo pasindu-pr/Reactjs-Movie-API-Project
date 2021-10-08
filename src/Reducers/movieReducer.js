@@ -8,8 +8,15 @@ const initialState = {
 //Reduer
 const movieReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "FETCH_MOVIE_REQUEST":
+      return {
+        loading: true,
+        ...state,
+      };
+
     case "FETCH_MOVIES":
       return {
+        loading: false,
         ...state,
         trendingMovies: action.payload.trending,
         upcommingMovies: action.payload.upcomming,

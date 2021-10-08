@@ -2,6 +2,11 @@ import axios from "axios";
 import { trending_movies_url, now_playing_url, upcomming_url } from "../api";
 
 export const movieAction = () => async (dispatch) => {
+  //Movies loading action
+  dispatch({
+    type: "FETCH_MOVIE_REQUEST",
+  });
+
   //Get Movies
   const trendingMovies = await axios.get(trending_movies_url());
   const nowPlayingMovies = await axios.get(now_playing_url());

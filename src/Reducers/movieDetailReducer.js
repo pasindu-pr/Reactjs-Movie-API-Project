@@ -7,8 +7,15 @@ const initialState = {
 
 const movieDetailReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "FETCH_MOVIE_DETAIL_REQUEST":
+      return { loading: true, ...state };
+
     case "FETCH_MOVIE_DETAIL":
-      return { ...state, clickedMovie: action.payload.movieDetails };
+      return {
+        loading: false,
+        ...state,
+        clickedMovie: action.payload.movieDetails,
+      };
 
     default:
       return { ...state };
