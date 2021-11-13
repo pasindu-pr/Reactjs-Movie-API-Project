@@ -12,6 +12,19 @@ export const filmCardVariant = {
   },
 };
 
+const easing = [0.6, -0.05, 0.01, 0.99];
+
+export const searchBarVariant = {
+  initial: { scale: 0, x: "-50%", y: "-50%" },
+  animated: {
+    scale: 1,
+    transition: { duration: 0.4, ease: easing },
+  },
+  exit: {
+    scale: 0,
+  },
+};
+
 export const filmCardPopup = {
   hidden: {
     opacity: 0,

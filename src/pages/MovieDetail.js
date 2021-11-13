@@ -20,6 +20,17 @@ function MovieDetail() {
   return (
     <Page>
       <div>
+        <Image>
+          {/* <img
+        src="https://image.tmdb.org/t/p/w500/k68nPLbIST6NP96JmTxmZijEvCA.jpg"
+        alt=""
+      /> */}
+          <img
+            src={`https://image.tmdb.org/t/p/w1280${clickedMovie.backdrop_path}`}
+            alt=""
+          />
+        </Image>
+
         <Title>
           <h1>
             <IconButton onClick={clickHandler}>
@@ -42,16 +53,6 @@ function MovieDetail() {
           </h5>
           <hr />
         </Genres>
-        <Image>
-          {/* <img
-        src="https://image.tmdb.org/t/p/w500/k68nPLbIST6NP96JmTxmZijEvCA.jpg"
-        alt=""
-      /> */}
-          <img
-            src={`https://image.tmdb.org/t/p/w1280${clickedMovie.backdrop_path}`}
-            alt=""
-          />
-        </Image>
         <Description>
           <p> {clickedMovie.overview} </p>
           <p className="release-date">
