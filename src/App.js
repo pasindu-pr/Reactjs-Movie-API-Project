@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Homepage from "./pages/Homepage";
 import MovieDetail from "./pages/MovieDetail";
 import NavBar from "./components/NavBar";
@@ -10,7 +10,12 @@ import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
   const searchState = useSelector((state) => state.show_search);
+
+  const latestItemRef = useRef();
+  const nowPlayingItemRef = useRef();
+  const trendingItemRef = useRef();
 
   return (
     <div className="App">
@@ -21,10 +26,21 @@ function App() {
             <MovieDetail />
           </Route>
           <Route path="/">
-            <NavBar />
+            <NavBar
+              latestItemRef={latestItemRef}
+              nowPlayingItemRef={nowPlayingItemRef}
+              trendingItemRef={trendingItemRef}
+            />
             <Carousel />
-            {searchState && <Search />}
-            <Homepage />
+            {searchState && (
+              <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            )}
+            <Homepage
+              searchTerm={searchTerm}
+              latestItemRef={latestItemRef}
+              nowPlayingItemRef={nowPlayingItemRef}
+              trendingItemRef={trendingItemRef}
+            />
             <Footer />
           </Route>
         </Switch>

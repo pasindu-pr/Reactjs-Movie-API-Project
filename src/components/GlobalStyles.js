@@ -6,7 +6,8 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding:0;
     color: white;
-    font-family: "Roboto", sans-serif
+    font-family: "Roboto", sans-serif;
+    scroll-behavior: smooth;
 }
 
 

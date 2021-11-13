@@ -39,7 +39,7 @@ function Carousel() {
 
 const Page = styled(motion.div)`
   background-color: #1b1b1b;
-  padding: 2rem 0;
+  padding: 0 0 2rem 0;
 `;
 
 export default Carousel;

@@ -18,7 +18,7 @@ export const searchBarVariant = {
   initial: { scale: 0, x: "-50%", y: "-50%" },
   animated: {
     scale: 1,
-    transition: { duration: 0.4, ease: easing },
+    transition: { duration: 0.7, ease: easing },
   },
   exit: {
     scale: 0,

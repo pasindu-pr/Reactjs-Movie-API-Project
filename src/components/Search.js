@@ -7,9 +7,8 @@ import { searchBarVariant } from "../transitions";
 import { show_search_bar } from "../actions/searchBarAction";
 import { enableBodyScroll, disableBodyScroll } from "body-scroll-lock";
 
-function Search() {
+function Search({ searchTerm, setSearchTerm }) {
   const dispatch = useDispatch();
-  const [searchTerm, setSearchTerm] = useState("");
 
   const changeHandler = (event) => {
     setSearchTerm(event.target.value);
@@ -18,7 +17,6 @@ function Search() {
   const clickHandler = () => {
     const urlEncodedSearch = encodeURI(searchTerm);
     dispatch(search_movie_action(urlEncodedSearch));
-    setSearchTerm("");
     handleSearchCloseClick();
   };
 

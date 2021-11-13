@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { movieAction } from "../actions/moviesAction";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -7,8 +7,14 @@ import { motion } from "framer-motion";
 //Components
 import FilmCard from "../components/FilmCard";
 
-function Homepage() {
+function Homepage({
+  searchTerm,
+  latestItemRef,
+  nowPlayingItemRef,
+  trendingItemRef,
+}) {
   const dispatch = useDispatch();
+
   const { nowplayingMovies, trendingMovies, upcommingMovies, searchedMovies } =
     useSelector((state) => state.movies);
 
@@ -21,8 +27,10 @@ function Homepage() {
       <MainPage>
         {searchedMovies.length ? (
           <Category transition={{ duration: 0.5 }}>
-            <h3 className="title"> Searched Movies </h3>
-            <hr />
+            <div className="title-container">
+              <h3 className="title"> Search Results </h3>
+              <p> Search Results for {searchTerm} </p>
+            </div>
             <Collections>
               {searchedMovies.map((movie) => (
                 <FilmCard
@@ -39,7 +47,7 @@ function Homepage() {
           ""
         )}
 
-        <Category transition={{ duration: 0.5 }}>
+        <Category ref={nowPlayingItemRef} transition={{ duration: 0.5 }}>
           <div className="title-container">
             <h3 className="title"> Now Playing Movies </h3>
             <p> Now playing movies all over the world </p>
@@ -56,7 +64,7 @@ function Homepage() {
             ))}
           </Collections>
         </Category>
-        <Category>
+        <Category ref={trendingItemRef}>
           <div className="title-container">
             <h3 className="title"> Trending Movies </h3>
             <p> Trending movies all over the world </p>
@@ -73,7 +81,7 @@ function Homepage() {
             ))}
           </Collections>
         </Category>
-        <Category>
+        <Category ref={latestItemRef}>
           <div className="title-container">
             <h3 className="title"> Upcomming Movies </h3>
             <p> Upcomming movies all over the world </p>
