@@ -6,24 +6,24 @@ function Footer() {
 
   return (
     <Main>
-      <footer class="footer-distributed">
-        <div class="footer-right">
+      <footer className="footer-distributed">
+        <div className="footer-right">
           <a href="facebook.com">
-            <i class="fa-brands fa-facebook-square"></i>
+            <i className="fa-brands fa-facebook-square"></i>
           </a>
           <a href="twitter.com">
-            <i class="fa-brands fa-twitter"></i>
+            <i className="fa-brands fa-twitter"></i>
           </a>
           <a href="linkedin.com">
-            <i class="fa-brands fa-linkedin-in"></i>
+            <i className="fa-brands fa-linkedin-in"></i>
           </a>
           <a href="github.com">
-            <i class="fa-brands fa-github"></i>
+            <i className="fa-brands fa-github"></i>
           </a>
         </div>
 
-        <div class="footer-left">
-          <p class="footer-links">All Rights Reserved</p>
+        <div className="footer-left">
+          <p className="footer-links">All Rights Reserved</p>
 
           <p>Movipack &copy; {date.getFullYear()}</p>
         </div>

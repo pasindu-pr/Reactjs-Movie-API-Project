@@ -44,7 +44,7 @@ function NavBar({ latestItemRef, nowPlayingItemRef, trendingItemRef }) {
           Upcomming Movies
         </p>
 
-        <i onClick={clickHandler} class="fa-solid fa-magnifying-glass"></i>
+        <i onClick={clickHandler} className="fa-solid fa-magnifying-glass"></i>
       </div>
     </Bar>
   );

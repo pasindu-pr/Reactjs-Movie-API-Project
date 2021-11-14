@@ -30,7 +30,7 @@ function MovieDetail() {
     };
 
     fetchData();
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, [id]);
 
   return (
@@ -46,7 +46,7 @@ function MovieDetail() {
 
                 <Rating>
                   {[...Array(starRating)].map((i, index) => (
-                    <i key={index} class="fa-solid fa-star"></i>
+                    <i key={index} className="fa-solid fa-star"></i>
                   ))}
 
                   <h5>(&nbsp; {clickedMovie.vote_average} &nbsp;)</h5>
@@ -260,12 +260,24 @@ const Page = styled(motion.div)`
     text-align: center;
     margin-top: 10px;
   }
+
+  @media (max-width: 1200px) {
+    padding: 10px 10px;
+  }
 `;
 
 const Header = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+
+    h1 {
+      text-align: center;
+    }
+  }
 `;
 
 const TitleRatingContainer = styled(motion.div)``;
@@ -291,6 +303,11 @@ const Rating = styled(motion.div)`
   i {
     color: #ffc400;
     margin-right: 1rem;
+  }
+
+  @media screen and (max-width: 420px) {
+    justify-content: center;
+    margin: 1rem 0;
   }
 `;
 
@@ -328,18 +345,42 @@ const ImageVideoContainer = styled(motion.div)`
     height: 50vh;
     border: none;
   }
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    gap: 3vh;
+    img {
+      width: 100vw;
+    }
+
+    iframe {
+      width: 100vw;
+    }
+  }
 `;
 
 const Image = styled(motion.div)`
   width: 50vw;
+
+  @media (max-width: 1200px) {
+    width: 100vw;
+  }
 `;
 
 const MovieDetailsContainer = styled(motion.div)`
   display: flex;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 const MovieDetails = styled(motion.div)`
   width: 50vw;
+  @media (max-width: 1200px) {
+    margin-top: 2rem;
+    width: 100vw;
+  }
 `;
 
 const WatchListContainer = styled(motion.div)`
@@ -357,6 +398,15 @@ const WatchListContainer = styled(motion.div)`
     border-radius: 8px;
     cursor: pointer;
   }
+
+  @media (max-width: 1200px) {
+    width: 100vw;
+    margin-top: 2rem;
+
+    button {
+      width: 100%;
+    }
+  }
 `;
 
 const Description = styled(motion.div)`
@@ -365,14 +415,11 @@ const Description = styled(motion.div)`
   }
   p {
     text-align: left;
+    width: 98%;
   }
 
   .release-date {
     margin-top: 1rem;
-  }
-
-  @media (max-width: 550px) {
-    padding: 1rem 2rem;
   }
 `;
 

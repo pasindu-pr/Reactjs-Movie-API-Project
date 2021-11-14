@@ -9,8 +9,6 @@ export const movieVideosAction = (movie_id) => async (dispatch) => {
 
   const movieDetails = await axios.get(movie_video_url(movie_id));
 
-  console.log(movieDetails);
-
   dispatch({
     type: "FETCH_MOVIE_VIDEO",
     payload: {
