@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export default Collections = styled(motion.div)`
+const Collections = styled(motion.div)`
   padding: 4rem 0;
   display: grid;
   grid-template-columns: repeat(6, minmax(50px, 1fr));
@@ -29,3 +29,5 @@ export default Collections = styled(motion.div)`
     grid-gap: 1rem;
   }
 `;
+
+export default Collections;
