@@ -1,102 +1,275 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { motion } from "framer-motion";
-import star from "../img/star.svg";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowBackIosSharpIcon from "@material-ui/icons/ArrowBackIosSharp";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 //Redux
 import { useSelector } from "react-redux";
+import { movie_cast_url, similar_movies_url } from "../api";
+import FilmCard from "../components/FilmCard";
+import Footer from "../components/Footer";
+import Collections from "../shared/collectionslayout";
 
 function MovieDetail() {
   const { clickedMovie } = useSelector((state) => state.movieDetail);
+  const movieVideos = useSelector((state) => state.movideVideos);
+  const [movieCast, setMovieCast] = useState();
+  const [similarMovies, setSimilarMovies] = useState();
   const history = useHistory();
 
   const clickHandler = () => {
     history.push("/");
   };
 
+  const starRating = Math.floor(Number(clickedMovie.vote_average) / 2) || 1;
+
+  const { id } = useParams();
+
+  useEffect(async () => {
+    const { data } = await axios.get(movie_cast_url(id));
+    const { data: movieCastData } = await axios.get(similar_movies_url(id));
+    setMovieCast(data.cast);
+    setSimilarMovies(movieCastData.results);
+    window.scrollTo(0, 0);
+  }, [id]);
+
   return (
-    <Page>
-      <div>
-        <Image>
-          {/* <img
-        src="https://image.tmdb.org/t/p/w500/k68nPLbIST6NP96JmTxmZijEvCA.jpg"
-        alt=""
-      /> */}
-          <img
-            src={`https://image.tmdb.org/t/p/w1280${clickedMovie.backdrop_path}`}
-            alt=""
-          />
-        </Image>
+    <>
+      <Page>
+        {clickedMovie && movieVideos && (
+          <>
+            <Header>
+              <TitleRatingContainer>
+                <Title>
+                  <h1>{clickedMovie.original_title}</h1>
+                </Title>
 
-        <Title>
-          <h1>
-            <IconButton onClick={clickHandler}>
-              <ArrowBackIosSharpIcon
-                style={{ fill: "#ffc400" }}
-                className="back-icon"
-              />
-            </IconButton>
-            {clickedMovie.original_title}
-          </h1>
-        </Title>
-        <Genres>
-          {clickedMovie.genres.map((genre) => (
-            <h5 key={genre.id}> {genre.name} &nbsp;</h5>
-          ))}
+                <Rating>
+                  {[...Array(starRating)].map((i, index) => (
+                    <i key={index} class="fa-solid fa-star"></i>
+                  ))}
 
-          <h5>
-            |&nbsp; &nbsp; <img src={star} alt="rating-star" />{" "}
-            {clickedMovie.vote_average}{" "}
-          </h5>
-          <hr />
-        </Genres>
-        <Description>
-          <p> {clickedMovie.overview} </p>
-          <p className="release-date">
-            {" "}
-            Release Date :{clickedMovie.release_date}{" "}
-          </p>
-          <p className="release-date"> Status : {clickedMovie.status} </p>
-        </Description>
-        <Companies>
-          <h3> Producers: </h3>
-          {clickedMovie.production_companies.map((company) => (
-            <h5 key={company.id}> {company.name} </h5>
-          ))}
-        </Companies>
-        <Other>
-          <h5> Budget : $ {clickedMovie.budget} </h5>
-          <h5> Revenue : $ {clickedMovie.revenue} </h5>
-          <h5> Popularity : {clickedMovie.popularity} </h5>
-        </Other>
-        <hr />
-        <h5 className="website">
-          {" "}
-          Official Website :{" "}
-          <a href="www.tenet.com"> {clickedMovie.homepage} </a>{" "}
-        </h5>
-      </div>
-    </Page>
+                  <h5>(&nbsp; {clickedMovie.vote_average} &nbsp;)</h5>
+                </Rating>
+              </TitleRatingContainer>
+
+              <Genres>
+                {clickedMovie.genres.map((genre) => (
+                  <div key={genre.id}>
+                    <h5 className="genre">{genre.name}</h5>
+                  </div>
+                ))}
+              </Genres>
+            </Header>
+
+            <div>
+              <ImageVideoContainer>
+                <Image>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w1280${clickedMovie.backdrop_path}`}
+                    alt=""
+                  />
+                </Image>
+
+                <iframe
+                  width="420"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${
+                    movieVideos.videos && movieVideos.videos[0].key
+                  }`}
+                ></iframe>
+              </ImageVideoContainer>
+
+              <MovieDetailsContainer>
+                <MovieDetails>
+                  <Description>
+                    <h3> Storyline: </h3>
+                    <p> {clickedMovie.overview} </p>
+
+                    <hr />
+
+                    <p className="release-date">
+                      Release Date :{clickedMovie.release_date}
+                    </p>
+
+                    <hr />
+
+                    <p className="release-date">
+                      {" "}
+                      Status : {clickedMovie.status}{" "}
+                    </p>
+
+                    <hr />
+
+                    <p className="release-date" style={{ display: "inline" }}>
+                      Producers: &nbsp;
+                    </p>
+                    {clickedMovie.production_companies.map((company) => (
+                      <p
+                        className="release-date"
+                        style={{ display: "inline-block" }}
+                        key={company.id}
+                      >
+                        {company.name}
+                      </p>
+                    ))}
+                    <hr />
+                    <p className="release-date">
+                      {" "}
+                      Budget : $ {clickedMovie.budget}{" "}
+                    </p>
+                    <hr />
+
+                    <p className="release-date">
+                      Revenue : $ {clickedMovie.revenue}
+                    </p>
+
+                    <hr />
+
+                    <p className="release-date">
+                      Popularity : {clickedMovie.popularity}
+                    </p>
+
+                    <hr />
+                  </Description>
+
+                  <h5 className="website"></h5>
+                </MovieDetails>
+
+                <WatchListContainer>
+                  <button> Add to watchlist </button>
+                </WatchListContainer>
+              </MovieDetailsContainer>
+
+              <CastContainer>
+                <div className="title-container">
+                  <h3 className="title"> Cast And Crew </h3>
+                  <p> Cast and crew of {clickedMovie.original_title} </p>
+                </div>
+
+                <Collections>
+                  {movieCast &&
+                    movieCast.slice(0, 12).map((charcter, index) => (
+                      <Character key={index}>
+                        <img
+                          src={`https://image.tmdb.org/t/p/w185${charcter.profile_path}`}
+                        />
+                        <h3> {charcter.name} </h3>
+                        <p> {charcter.character}</p>
+                      </Character>
+                    ))}
+                </Collections>
+              </CastContainer>
+
+              <Category>
+                <div className="title-container">
+                  <h3 className="title"> Similar Movies </h3>
+                  <p> Similar movies to {clickedMovie.original_title} </p>
+                </div>
+                <Collections>
+                  {similarMovies &&
+                    similarMovies
+                      .slice(0, 6)
+                      .map((movie) => (
+                        <FilmCard
+                          key={movie.id}
+                          id={movie.id}
+                          name={movie.original_title}
+                          rating={movie.vote_average}
+                          poster={movie.poster_path}
+                        />
+                      ))}
+                </Collections>
+              </Category>
+            </div>
+          </>
+        )}
+      </Page>
+      <Footer />
+    </>
   );
 }
 
+const Category = styled(motion.div)`
+  flex-direction: column;
+  padding-top: 2rem;
+
+  .title-container {
+    border-left: 5px solid #ffc400;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+
+    h3 {
+      font-size: 1.8rem;
+      margin-left: 10px;
+    }
+
+    p {
+      font-size: 0.8rem;
+      margin-left: 10px;
+    }
+  }
+`;
+
+const CastContainer = styled(motion.div)`
+  min-height: 60vh;
+  margin: 2rem 0;
+
+  .title-container {
+    border-left: 5px solid #ffc400;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+
+    h3 {
+      font-size: 1.8rem;
+      margin-left: 10px;
+    }
+
+    p {
+      font-size: 0.8rem;
+      margin-left: 10px;
+    }
+  }
+`;
+
+const Character = styled(motion.div)`
+  width: 11.8rem;
+  img {
+    object-fit: contain;
+  }
+
+  p,
+  h3 {
+    text-align: center;
+  }
+`;
+
 const Page = styled(motion.div)`
+  padding: 10px 2rem;
+  max-width: 100vw;
+  overflow-x: hidden;
   min-height: 100vh;
   background-color: #1b1b1b;
   padding-bottom: 1rem;
   hr {
     margin-top: 12px;
     border-bottom: none;
-    border-top: 1px solid #ffc400;
+    border-top: 1px solid rgba(250, 250, 250, 0.2);
   }
   .website {
     text-align: center;
     margin-top: 10px;
   }
 `;
+
+const Header = styled(motion.div)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const TitleRatingContainer = styled(motion.div)``;
 
 const Title = styled(motion.div)`
   display: inline;
@@ -108,69 +281,99 @@ const Title = styled(motion.div)`
     color: #ffc400;
   }
   padding-top: 10px;
-  text-align: center;
+  text-align: left;
+`;
+
+const Rating = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+
+  i {
+    color: #ffc400;
+    margin-right: 1rem;
+  }
 `;
 
 const Genres = styled(motion.div)`
-  text-align: center;
+  display: flex;
+  align-items: center;
+
+  div {
+    border: 1px solid #ffc400;
+    margin: 0 1rem;
+    padding: 4px 8px;
+    border-radius: 15px;
+  }
+
   h5 {
-    display: inline;
-    margin-top: 10px;
+    color: #ffc400;
   }
-  hr {
-    margin-top: 12px;
-    border-bottom: none;
-    border-top: 1px solid #ffc400;
-  }
+`;
+
+const ImageVideoContainer = styled(motion.div)`
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4vw;
+
   img {
-    width: 10px;
-    margin-top: 1rem;
-    margin-right: 10px;
-    display: inline;
+    width: 50vw;
+    height: 50vh;
+    object-fit: cover;
+  }
+
+  iframe {
+    width: 50vw;
+    height: 50vh;
+    border: none;
   }
 `;
 
 const Image = styled(motion.div)`
-  img {
-    width: 100vw;
-    height: 60vh;
-    object-fit: cover;
+  width: 50vw;
+`;
+
+const MovieDetailsContainer = styled(motion.div)`
+  display: flex;
+`;
+
+const MovieDetails = styled(motion.div)`
+  width: 50vw;
+`;
+
+const WatchListContainer = styled(motion.div)`
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    width: 50%;
+    height: 60px;
+    background: rgba(205, 205, 205, 0.06);
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    cursor: pointer;
   }
 `;
 
 const Description = styled(motion.div)`
-  padding: 1rem 10rem;
+  h3 {
+    margin-bottom: 1rem;
+  }
   p {
-    text-align: center;
+    text-align: left;
   }
 
   .release-date {
     margin-top: 1rem;
-    color: #ffc400;
   }
 
   @media (max-width: 550px) {
     padding: 1rem 2rem;
-  }
-`;
-
-const Companies = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  h5 {
-    margin-top: 8px;
-    font-family: "Montserrat";
-  }
-`;
-
-const Other = styled(motion.div)`
-  text-align: center;
-  margin-top: 10px;
-  p {
-    font-family: "Roboto";
   }
 `;
 

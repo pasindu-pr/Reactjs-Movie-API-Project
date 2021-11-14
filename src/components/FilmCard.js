@@ -8,12 +8,14 @@ import { filmCardPopup } from "../transitions";
 //Redux Action
 import { useDispatch } from "react-redux";
 import { movieDetailAction } from "../actions/movieDetailAction";
+import { movieVideosAction } from "../actions/movieVideosAction";
 
-function FilmCard({ id, name, rating, poster }) {
+function FilmCard({ id, name, rating, poster, type }) {
   const dispatch = useDispatch();
 
   const clickHandler = () => {
     dispatch(movieDetailAction(id));
+    dispatch(movieVideosAction(id));
   };
 
   return (
