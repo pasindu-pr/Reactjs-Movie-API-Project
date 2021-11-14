@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 //Redux
 import { useSelector } from "react-redux";
@@ -16,21 +16,20 @@ function MovieDetail() {
   const movieVideos = useSelector((state) => state.movideVideos);
   const [movieCast, setMovieCast] = useState();
   const [similarMovies, setSimilarMovies] = useState();
-  const history = useHistory();
-
-  const clickHandler = () => {
-    history.push("/");
-  };
 
   const starRating = Math.floor(Number(clickedMovie.vote_average) / 2) || 1;
 
   const { id } = useParams();
 
-  useEffect(async () => {
-    const { data } = await axios.get(movie_cast_url(id));
-    const { data: movieCastData } = await axios.get(similar_movies_url(id));
-    setMovieCast(data.cast);
-    setSimilarMovies(movieCastData.results);
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get(movie_cast_url(id));
+      const { data: movieCastData } = await axios.get(similar_movies_url(id));
+      setMovieCast(data.cast);
+      setSimilarMovies(movieCastData.results);
+    };
+
+    fetchData();
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -75,6 +74,7 @@ function MovieDetail() {
                 <iframe
                   width="420"
                   height="315"
+                  title="Moviepack Videos"
                   src={`https://www.youtube.com/embed/${
                     movieVideos.videos && movieVideos.videos[0].key
                   }`}
@@ -133,8 +133,6 @@ function MovieDetail() {
 
                     <hr />
                   </Description>
-
-                  <h5 className="website"></h5>
                 </MovieDetails>
 
                 <WatchListContainer>
@@ -154,6 +152,7 @@ function MovieDetail() {
                       <Character key={index}>
                         <img
                           src={`https://image.tmdb.org/t/p/w185${charcter.profile_path}`}
+                          alt={`moviepack_casts_${charcter.name}`}
                         />
                         <h3> {charcter.name} </h3>
                         <p> {charcter.character}</p>

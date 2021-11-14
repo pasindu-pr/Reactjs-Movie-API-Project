@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Homepage from "./pages/Homepage";
 import MovieDetail from "./pages/MovieDetail";
 import NavBar from "./components/NavBar";

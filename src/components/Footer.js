@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import GitHubIcon from "@material-ui/icons/GitHub";
 
 function Footer() {
   const date = new Date();
@@ -9,16 +8,16 @@ function Footer() {
     <Main>
       <footer class="footer-distributed">
         <div class="footer-right">
-          <a href="#">
+          <a href="facebook.com">
             <i class="fa-brands fa-facebook-square"></i>
           </a>
-          <a href="#">
+          <a href="twitter.com">
             <i class="fa-brands fa-twitter"></i>
           </a>
-          <a href="#">
+          <a href="linkedin.com">
             <i class="fa-brands fa-linkedin-in"></i>
           </a>
-          <a href="#">
+          <a href="github.com">
             <i class="fa-brands fa-github"></i>
           </a>
         </div>
